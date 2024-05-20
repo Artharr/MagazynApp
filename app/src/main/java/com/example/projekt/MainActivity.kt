@@ -7,18 +7,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -44,15 +39,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projekt.ui.theme.ProjektTheme
-import java.time.LocalDate
+import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
-
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -88,11 +80,11 @@ class MainActivity : ComponentActivity() {
                 val orderList = listOf(
                     OrderItem(
                         orderID = 1,
-                        //orderDate = LocalDateTime.parse("10:10 18-05-2024", DateTimeFormatter.ofPattern("hh:mm dd-MM-yyyy"))
+                        orderDate = LocalDateTime.parse("10:10 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))
                     ),
                     OrderItem(
                         orderID = 2,
-                        //orderDate = LocalDateTime.parse("10:13 18-05-2024", DateTimeFormatter.ofPattern("hh:mm dd-MM-yyyy"))
+                        orderDate = LocalDateTime.parse("10:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))
                     )
                 )
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -126,21 +118,18 @@ class MainActivity : ComponentActivity() {
                                 Icon(imageVector = ImageVector.vectorResource(R.drawable.baseline_refresh_24), contentDescription = "odśwież")
                         }}
                     }, topBar = {
-                        TopAppBar(title = { Text(text = "Witaj użytkowniku")}, modifier = Modifier.background(
-                            Color.LightGray))
+                        TopAppBar(title = { Text(text = "Witaj użytkowniku")}, modifier = Modifier.background(Color.LightGray))
                     }, content = {
                         paddingValues ->
                         Column (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
                             .fillMaxSize()
                             .padding(paddingValues)
-                            .verticalScroll(
-                                rememberScrollState()
-                            )){
+                            .verticalScroll(rememberScrollState())){
 //                                orderList.forEachIndexed { index, orderItem ->
 //                                    orderListItem(orderItem = orderItem)
 //                                }
                             for(i in 1..20){
-                                orderListItem(orderItem = OrderItem(i))
+                                OrderListItem(orderItem = OrderItem(i, LocalDateTime.parse(DecimalFormat("00").format(i).toString()+":13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))
                             }
                         }
                     })
@@ -148,12 +137,14 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun orderListItem(orderItem: OrderItem){
+    fun OrderListItem(orderItem: OrderItem){
         Box(modifier = Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(12.dp)).background(Color.Gray)){
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(text = "Zamówienie " + orderItem.orderID.toString(), fontSize = 32.sp, color = Color.Black)
-                Text(text = "*date placeholder*", color = Color.DarkGray)
+                //Text(text = "*date placeholder*", color = Color.DarkGray)
+                Text(text = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy").format(orderItem.orderDate), color = Color.DarkGray)
             }
         }
     }
