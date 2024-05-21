@@ -9,7 +9,6 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -140,10 +141,12 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun OrderListItem(orderItem: OrderItem){
-        Box(modifier = Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(12.dp)).background(Color.Gray)){
-            Column(modifier = Modifier.padding(12.dp)) {
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+        ) {
+            Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
                 Text(text = "Zamówienie " + orderItem.orderID.toString(), fontSize = 32.sp, color = Color.Black)
-                //Text(text = "*date placeholder*", color = Color.DarkGray)
                 Text(text = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy").format(orderItem.orderDate), color = Color.DarkGray)
             }
         }
