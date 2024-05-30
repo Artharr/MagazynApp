@@ -18,16 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun kompletowanieEkran(paddingValues: PaddingValues){
+fun Kompletowanie(navController: NavController/*, paddingValues: PaddingValues*/){
     Column (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
         .fillMaxSize()
-        .padding(paddingValues)
+        //.padding(paddingValues)
         .verticalScroll(rememberScrollState())){
         for(i in 1..15){
             OrderListItem(orderItem = OrderItem(i, LocalDateTime.parse(DecimalFormat("00").format(i).toString()+":13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))

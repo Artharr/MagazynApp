@@ -12,16 +12,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun wydawanieEkran(paddingValues: PaddingValues){
+fun Wydawanie(navController: NavController/*, paddingValues: PaddingValues*/){
     Column (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
         .fillMaxSize()
-        .padding(paddingValues)
+        //.padding(paddingValues)
         .verticalScroll(rememberScrollState())){
         for(i in 16..30){
             OrderListItem(orderItem = OrderItem(i, LocalDateTime.parse("10:13 $i-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))

@@ -8,7 +8,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,11 +33,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.projekt.ui.theme.ProjektTheme
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var navController: NavHostController
+
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
@@ -41,24 +50,28 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProjektTheme {
-                var items by rememberSaveable {
+                navController = rememberNavController()
+                var screens by rememberSaveable {
                 mutableStateOf(listOf(
                     BottomNavigationItem(
                         title = "Kompletowanie",
                         icon = R.drawable.baseline_forklift_24,
                         hasNews = true,
-                        badgeCount = 2
+                        badgeCount = 2,
+                        destination = "kompletowanie_screen"
                     ),
                     BottomNavigationItem(
                         title = "Wydawanie",
                         icon = R.drawable.baseline_publish_24,
                         hasNews = true,
-                        badgeCount = 5
+                        badgeCount = 5,
+                        destination = "wydawanie_screen"
                     ),
                     BottomNavigationItem(
                         title = "Ustawienia",
                         icon = R.drawable.baseline_settings_24,
-                        hasNews = false
+                        hasNews = false,
+                        destination = "ustawienia_screen"
                     )
                 ))}
                 var selectedItemIndex by rememberSaveable {
@@ -68,10 +81,12 @@ class MainActivity : ComponentActivity() {
                     Scaffold(bottomBar = {
                         NavigationBar {
                             NavigationBar {
-                                items.forEachIndexed { index, item ->
+                                screens.forEachIndexed { index, item ->
                                     NavigationBarItem(
                                         selected = selectedItemIndex == index,
-                                        onClick = {selectedItemIndex = index },
+                                        onClick = {
+                                            selectedItemIndex = index;
+                                                  navController.navigate(route = item.destination)},
                                         icon = {
                                             BadgedBox(
                                                 badge = {
@@ -98,11 +113,9 @@ class MainActivity : ComponentActivity() {
                         TopAppBar(title = { Text(text = "Witaj użytkowniku")}, modifier = Modifier.background(Color.LightGray))
                     }, content = {
                         paddingValues ->
-                        when(selectedItemIndex){
-                            0 -> kompletowanieEkran(paddingValues)
-                            1 -> wydawanieEkran(paddingValues)
+                        Box(modifier = Modifier.padding(paddingValues)){
+                            SetupNavGraph(navController = navController)
                         }
-
                     })
                 }
             }
