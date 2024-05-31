@@ -1,4 +1,4 @@
-package com.example.projekt
+package com.example.projekt.sekcje
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -10,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.projekt.OrderItem
+import com.example.projekt.OrderListItem
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
-private var orders = listOf<OrderItem>(
+private var orders = listOf(
     OrderItem(1, LocalDateTime.parse("01:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
     OrderItem(2, LocalDateTime.parse("02:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
     OrderItem(3, LocalDateTime.parse("03:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),

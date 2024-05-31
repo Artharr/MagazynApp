@@ -1,4 +1,4 @@
-package com.example.projekt
+package com.example.projekt.nawigacja
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,26 +6,29 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.projekt.sekcje.Kompletowanie
+import com.example.projekt.sekcje.Ustawienia
+import com.example.projekt.sekcje.Wydawanie
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SetupNavGraph(navController: NavHostController){
+fun SetupSekcjeNavGraph(navController: NavHostController){
     NavHost(
         navController = navController,
-        startDestination = Screen.Kompletowanie.route
+        startDestination = Sekcje.Kompletowanie.route
         ){
         composable(
-            route=Screen.Kompletowanie.route
+            route= Sekcje.Kompletowanie.route
         ){
             Kompletowanie(navController)
         }
         composable(
-            route=Screen.Wydawanie.route
+            route= Sekcje.Wydawanie.route
         ){
             Wydawanie(navController)
         }
         composable(
-            route=Screen.Ustawienia.route
+            route= Sekcje.Ustawienia.route
         ){
             Ustawienia(navController)
         }

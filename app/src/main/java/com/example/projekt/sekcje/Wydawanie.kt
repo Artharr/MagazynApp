@@ -1,4 +1,4 @@
-package com.example.projekt
+package com.example.projekt.sekcje
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -10,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.projekt.OrderItem
+import com.example.projekt.OrderListItem
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
-private var orders = listOf<OrderItem>(
+private var orders = listOf(
     OrderItem(11, LocalDateTime.parse("11:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
     OrderItem(12, LocalDateTime.parse("12:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
     OrderItem(13, LocalDateTime.parse("13:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
@@ -32,6 +34,6 @@ private var orders = listOf<OrderItem>(
 fun Wydawanie(navController: NavController){
     LazyColumn (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
         .fillMaxSize()){
-        items(orders){order-> OrderListItem(orderItem = order)}
+        items(orders){ order-> OrderListItem(orderItem = order) }
     }
 }

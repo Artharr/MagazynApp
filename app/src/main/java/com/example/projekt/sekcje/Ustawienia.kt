@@ -1,4 +1,4 @@
-package com.example.projekt
+package com.example.projekt.sekcje
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
