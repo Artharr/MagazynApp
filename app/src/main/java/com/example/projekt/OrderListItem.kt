@@ -1,6 +1,5 @@
 package com.example.projekt
 
-import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,7 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun OrderListItem(orderItem: OrderItem){
-    Button(onClick = {Order()},
+    Button(onClick = {},
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
     ) {

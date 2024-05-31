@@ -3,35 +3,35 @@ package com.example.projekt
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
+private var orders = listOf<OrderItem>(
+    OrderItem(1, LocalDateTime.parse("01:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(2, LocalDateTime.parse("02:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(3, LocalDateTime.parse("03:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(4, LocalDateTime.parse("04:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(5, LocalDateTime.parse("05:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(6, LocalDateTime.parse("06:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(7, LocalDateTime.parse("07:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(8, LocalDateTime.parse("08:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(9, LocalDateTime.parse("09:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))),
+    OrderItem(10, LocalDateTime.parse("10:13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy")))
+)
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Kompletowanie(navController: NavController/*, paddingValues: PaddingValues*/){
-    Column (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
-        .fillMaxSize()
-        //.padding(paddingValues)
-        .verticalScroll(rememberScrollState())){
-        for(i in 1..15){
-            OrderListItem(orderItem = OrderItem(i, LocalDateTime.parse(DecimalFormat("00").format(i).toString()+":13 18-05-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))
-        }
+fun Kompletowanie(navController: NavController){
+    LazyColumn (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
+        .fillMaxSize()){
+        items(orders) { order -> OrderListItem(orderItem = order) }
     }
 }
