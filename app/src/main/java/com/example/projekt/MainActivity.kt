@@ -38,6 +38,8 @@ import com.example.projekt.ui.theme.ProjektTheme
 class MainActivity : ComponentActivity() {
 
     lateinit var navController: NavHostController
+    private var doSkompletowania: Int = 5
+    private var doWydania: Int = 8
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
@@ -47,56 +49,45 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProjektTheme {
                 navController = rememberNavController()
-                var screens by rememberSaveable {
-                mutableStateOf(listOf(
-                    BottomNavigationItem(
-                        title = "Kompletowanie",
-                        icon = R.drawable.baseline_forklift_24,
-                        hasNews = true,
-                        badgeCount = 2,
-                        destination = "kompletowanie_screen"
-                    ),
-                    BottomNavigationItem(
-                        title = "Wydawanie",
-                        icon = R.drawable.baseline_publish_24,
-                        hasNews = true,
-                        badgeCount = 5,
-                        destination = "wydawanie_screen"
-                    ),
-                    BottomNavigationItem(
-                        title = "Ustawienia",
-                        icon = R.drawable.baseline_settings_24,
-                        hasNews = false,
-                        destination = "ustawienia_screen"
-                    )
-                ))}
-                var selectedItemIndex by rememberSaveable {
-                    mutableStateOf(0)
-                }
+                var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Scaffold(bottomBar = {
                         NavigationBar {
                             NavigationBar {
-                                screens.forEachIndexed { index, item ->
-                                    NavigationBarItem(
-                                        selected = selectedItemIndex == index,
-                                        onClick = {
-                                            selectedItemIndex = index;
-                                                  navController.navigate(route = item.destination)},
-                                        icon = {
-                                            BadgedBox(
-                                                badge = {
-                                                    if(item.badgeCount != null){
-                                                        Badge{Text(text = item.badgeCount.toString()) }
-                                                    }else if(item.hasNews){
-                                                        Badge()
-                                                    }
-                                                }) {
-                                                Icon(imageVector = ImageVector.vectorResource(id = item.icon),
-                                                    contentDescription = item.title)
-                                            }},
-                                        label = {Text(text = item.title) })
-                                }
+                                NavigationBarItem(
+                                    selected = selectedItemIndex == 0,
+                                    onClick = {
+                                                selectedItemIndex = 0
+                                                navController.navigate(Screen.Kompletowanie.route)
+                                    },
+                                    icon = {
+                                        BadgedBox(badge = { if(doSkompletowania > 0){ Badge{ Text(text = doSkompletowania.toString())} } }) {
+                                            Icon(imageVector = ImageVector.vectorResource(id=R.drawable.baseline_forklift_24), contentDescription = "Wydawanie")
+                                        }
+                                    },
+                                    label = { Text(text = "Wydawanie") })
+                                NavigationBarItem(
+                                    selected = selectedItemIndex == 1,
+                                    onClick = {
+                                                selectedItemIndex = 1
+                                                navController.navigate(Screen.Wydawanie.route)
+                                    },
+                                    icon = {
+                                        BadgedBox(badge = { if(doWydania > 0){ Badge{ Text(text = doWydania.toString())} } }) {
+                                            Icon(imageVector = ImageVector.vectorResource(id=R.drawable.baseline_publish_24), contentDescription = "Kompletowanie")
+                                        }
+                                    },
+                                    label = { Text(text = "Kompletowanie") })
+                                NavigationBarItem(
+                                    selected = selectedItemIndex == 2,
+                                    onClick = {
+                                                selectedItemIndex = 2
+                                                navController.navigate(Screen.Ustawienia.route)
+                                    },
+                                    icon = {
+                                        Icon(imageVector = ImageVector.vectorResource(id=R.drawable.baseline_settings_24), contentDescription = "Ustawienia")
+                                    },
+                                    label = { Text(text = "Ustawienia") })
                             }
                         }
                     }, floatingActionButton = {
