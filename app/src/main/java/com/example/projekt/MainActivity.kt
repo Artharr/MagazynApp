@@ -6,19 +6,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.projekt.ekrany.EkranGlowny
+import com.example.projekt.nawigacja.SetupEkranyNavGraph
 import com.example.projekt.ui.theme.ProjektTheme
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var navController: NavHostController
+    lateinit var bottomNavController: NavHostController
+    lateinit var ekranyNavController: NavHostController
     private var doSkompletowania: Int = 5
     private var doWydania: Int = 8
 
@@ -30,10 +27,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProjektTheme {
-                navController = rememberNavController()
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    EkranGlowny(navController = navController, doSkompletowania = doSkompletowania, doWydania = doWydania, this)
-                }
+                bottomNavController = rememberNavController()
+                ekranyNavController = rememberNavController()
+                SetupEkranyNavGraph(
+                    navController = ekranyNavController,
+                    bottomNavController = bottomNavController,
+                    doSkompletowania = doSkompletowania,
+                    doWydania = doWydania,
+                    context = this
+                )
             }
         }
     }

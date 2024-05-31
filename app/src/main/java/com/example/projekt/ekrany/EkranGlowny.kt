@@ -35,11 +35,11 @@ import com.example.projekt.nawigacja.SetupSekcjeNavGraph
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydania: Int, context: Context){
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+fun EkranGlowny(navController: NavHostController, bottomNavController: NavHostController, doSkompletowania: Int, doWydania: Int, context: Context){
+    val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     Scaffold(bottomBar = {
-        BottomNavigation(navController = navController, navBackStackEntry = navBackStackEntry, doSkompletowania = doSkompletowania, doWydania = doWydania
+        BottomNavigation(bottomNavController = bottomNavController, navBackStackEntry = navBackStackEntry, doSkompletowania = doSkompletowania, doWydania = doWydania
         )
     }, floatingActionButton = {
         if(currentDestination?.hierarchy?.any{
@@ -55,21 +55,21 @@ fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydan
     }, content = {
             paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)){
-            SetupSekcjeNavGraph(navController = navController)
+            SetupSekcjeNavGraph(navController = bottomNavController)
         }
     })
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, doSkompletowania: Int, doWydania: Int){
+fun BottomNavigation(bottomNavController: NavHostController, navBackStackEntry: NavBackStackEntry?, doSkompletowania: Int, doWydania: Int){
     val currentDestination = navBackStackEntry?.destination
     NavigationBar {
         NavigationBar {
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any{ it.route == Sekcje.Kompletowanie.route } == true,
                 onClick = {
-                    navController.navigate(Sekcje.Kompletowanie.route){
-                        popUpTo(navController.graph.findStartDestination().id)
+                    bottomNavController.navigate(Sekcje.Kompletowanie.route){
+                        popUpTo(bottomNavController.graph.findStartDestination().id)
                         launchSingleTop = true
                     }
                 },
@@ -82,8 +82,8 @@ fun BottomNavigation(navController: NavHostController, navBackStackEntry: NavBac
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any{ it.route == Sekcje.Wydawanie.route } == true,
                 onClick = {
-                    navController.navigate(Sekcje.Wydawanie.route){
-                        popUpTo(navController.graph.findStartDestination().id)
+                    bottomNavController.navigate(Sekcje.Wydawanie.route){
+                        popUpTo(bottomNavController.graph.findStartDestination().id)
                         launchSingleTop = true
                     }
                 },
@@ -96,8 +96,8 @@ fun BottomNavigation(navController: NavHostController, navBackStackEntry: NavBac
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any{ it.route == Sekcje.Ustawienia.route } == true,
                 onClick = {
-                    navController.navigate(Sekcje.Ustawienia.route){
-                        popUpTo(navController.graph.findStartDestination().id)
+                    bottomNavController.navigate(Sekcje.Ustawienia.route){
+                        popUpTo(bottomNavController.graph.findStartDestination().id)
                         launchSingleTop = true
                     }
                 },
