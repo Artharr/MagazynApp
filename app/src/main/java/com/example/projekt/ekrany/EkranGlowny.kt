@@ -55,7 +55,7 @@ fun EkranGlowny(navController: NavHostController, bottomNavController: NavHostCo
     }, content = {
             paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)){
-            SetupSekcjeNavGraph(navController = bottomNavController)
+            SetupSekcjeNavGraph(bottomNavController, navController)
         }
     })
 }
