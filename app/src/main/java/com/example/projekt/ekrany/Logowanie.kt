@@ -62,6 +62,7 @@ fun Logowanie(navController: NavController, sharedPrefs: SharedPreferences){
                 }
                 with(sharedPrefs.edit()){
                     putInt("zalogowany", 1)
+                    putString("nazwaUzytkownika", login)
                     apply()
                 }
                 }) {

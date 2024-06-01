@@ -41,6 +41,7 @@ fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydan
     var bottomNavController: NavHostController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val nazwaUzytkownika = sharedPrefs.getString("nazwaUzytkownika", "")
     Scaffold(bottomBar = {
         BottomNavigation(bottomNavController = bottomNavController, navBackStackEntry = navBackStackEntry, doSkompletowania = doSkompletowania, doWydania = doWydania
         )
@@ -54,7 +55,7 @@ fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydan
             }
         }
     }, topBar = {
-        TopAppBar(title = { Text(text = "Witaj użytkowniku") }, modifier = Modifier.background(Color.LightGray))
+        TopAppBar(title = { Text(text = "Witaj "+nazwaUzytkownika) }, modifier = Modifier.background(Color.LightGray))
     }, content = {
             paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)){
