@@ -30,15 +30,19 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.projekt.OrderItem
 import com.example.projekt.R
 import com.example.projekt.nawigacja.Sekcje
 import com.example.projekt.nawigacja.SetupSekcjeNavGraph
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydania: Int, context: Context, sharedPrefs: SharedPreferences){
-    var bottomNavController: NavHostController = rememberNavController()
+fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs: SharedPreferences, doSkompletowania: MutableList<OrderItem>, doWydania: MutableList<OrderItem>){
+    val bottomNavController: NavHostController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val nazwaUzytkownika = sharedPrefs.getString("nazwaUzytkownika", "")
@@ -50,7 +54,20 @@ fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydan
                 it.route == Sekcje.Ustawienia.route
             }==false){
             FloatingActionButton(
-                onClick = { Toast.makeText(context, "*refresh*", Toast.LENGTH_SHORT).show()},) {
+                onClick = {
+                    Toast.makeText(context, "*refresh*", Toast.LENGTH_SHORT).show()
+                    if(currentDestination.hierarchy.any{it.route==Sekcje.Kompletowanie.route}){
+                        doSkompletowania.add(OrderItem(Random.nextInt(0,100),
+                            LocalDateTime.parse(Random.nextInt(10,23).toString()+":"+
+                                    Random.nextInt(10,59)+" "+
+                                    Random.nextInt(10,28)+"-"+
+                                    Random.nextInt(10,12)+"-2024",
+                                DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))
+                    }
+                    if(currentDestination.hierarchy.any{it.route==Sekcje.Wydawanie.route}){
+                        doWydania.add(OrderItem(Random.nextInt(0,100), LocalDateTime.parse(Random.nextInt(10,23).toString()+":"+Random.nextInt(10,59)+" "+Random.nextInt(10,28)+"-"+Random.nextInt(10,12)+"-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))
+                    }
+                }) {
                 Icon(imageVector = ImageVector.vectorResource(R.drawable.baseline_refresh_24), contentDescription = "odśwież")
             }
         }
@@ -59,13 +76,13 @@ fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydan
     }, content = {
             paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)){
-            SetupSekcjeNavGraph(bottomNavController, navController, sharedPrefs)
+            SetupSekcjeNavGraph(bottomNavController, navController, sharedPrefs, doSkompletowania, doWydania)
         }
     })
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(bottomNavController: NavHostController, navBackStackEntry: NavBackStackEntry?, doSkompletowania: Int, doWydania: Int){
+fun BottomNavigation(bottomNavController: NavHostController, navBackStackEntry: NavBackStackEntry?, doSkompletowania: MutableList<OrderItem>, doWydania: MutableList<OrderItem>){
     val currentDestination = navBackStackEntry?.destination
     NavigationBar {
         NavigationBar {
@@ -78,7 +95,7 @@ fun BottomNavigation(bottomNavController: NavHostController, navBackStackEntry: 
                     }
                 },
                 icon = {
-                    BadgedBox(badge = { if(doSkompletowania > 0){ Badge{ Text(text = doSkompletowania.toString()) } } }) {
+                    BadgedBox(badge = { if(doSkompletowania.isNotEmpty()){ Badge{ Text(text = doSkompletowania.count().toString()) } } }) {
                         Icon(imageVector = ImageVector.vectorResource(id= R.drawable.baseline_forklift_24), contentDescription = "Wydawanie")
                     }
                 },
@@ -92,7 +109,7 @@ fun BottomNavigation(bottomNavController: NavHostController, navBackStackEntry: 
                     }
                 },
                 icon = {
-                    BadgedBox(badge = { if(doWydania > 0){ Badge{ Text(text = doWydania.toString()) } } }) {
+                    BadgedBox(badge = { if(doWydania.isNotEmpty()){ Badge{ Text(text = doWydania.count().toString()) } } }) {
                         Icon(imageVector = ImageVector.vectorResource(id= R.drawable.baseline_publish_24), contentDescription = "Kompletowanie")
                     }
                 },

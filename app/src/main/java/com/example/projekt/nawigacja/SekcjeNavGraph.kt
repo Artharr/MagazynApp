@@ -8,13 +8,18 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.projekt.OrderItem
 import com.example.projekt.sekcje.Kompletowanie
 import com.example.projekt.sekcje.Ustawienia
 import com.example.projekt.sekcje.Wydawanie
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SetupSekcjeNavGraph(bottomNavController: NavHostController, navController: NavController, sharedPrefs: SharedPreferences){
+fun SetupSekcjeNavGraph(bottomNavController: NavHostController,
+                        navController: NavController,
+                        sharedPrefs: SharedPreferences,
+                        doSkompletowania: MutableList<OrderItem>,
+                        doWydania: MutableList<OrderItem>){
     NavHost(
         navController = bottomNavController,
         startDestination = Sekcje.Kompletowanie.route
@@ -22,12 +27,12 @@ fun SetupSekcjeNavGraph(bottomNavController: NavHostController, navController: N
         composable(
             route= Sekcje.Kompletowanie.route
         ){
-            Kompletowanie(bottomNavController)
+            Kompletowanie(bottomNavController, doSkompletowania)
         }
         composable(
             route= Sekcje.Wydawanie.route
         ){
-            Wydawanie(bottomNavController)
+            Wydawanie(bottomNavController, doWydania)
         }
         composable(
             route= Sekcje.Ustawienia.route

@@ -8,12 +8,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -22,8 +18,8 @@ import com.example.projekt.ui.theme.ProjektTheme
 
 class MainActivity : ComponentActivity() {
     lateinit var ekranyNavController: NavHostController
-    private var doSkompletowania: Int = 5
-    private var doWydania: Int = 8
+    var doSkompletowania = mutableStateListOf<OrderItem>()
+    val doWydania = mutableStateListOf<OrderItem>()
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +31,10 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxWidth()) {
                     SetupEkranyNavGraph(
                         navController = ekranyNavController,
-                        doSkompletowania = doSkompletowania,
-                        doWydania = doWydania,
                         context = this,
-                        sharedPrefs = sharedPrefs
+                        sharedPrefs = sharedPrefs,
+                        doSkompletowania = doSkompletowania,
+                        doWydania = doWydania
                     )
                 }
             }
