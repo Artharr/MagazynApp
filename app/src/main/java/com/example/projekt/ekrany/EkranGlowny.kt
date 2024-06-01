@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -72,17 +73,21 @@ fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs:
             }
         }
     }, topBar = {
-        TopAppBar(title = { Text(text = "Witaj "+nazwaUzytkownika) }, modifier = Modifier.background(Color.LightGray))
+        TopAppBar(title = { Text(text = "Witaj $nazwaUzytkownika") }, modifier = Modifier.background(Color.LightGray))
     }, content = {
             paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)){
-            SetupSekcjeNavGraph(bottomNavController, navController, sharedPrefs, doSkompletowania, doWydania)
+            SetupSekcjeNavGraph(bottomNavController,
+                navController, sharedPrefs, doSkompletowania, doWydania)
         }
     })
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(bottomNavController: NavHostController, navBackStackEntry: NavBackStackEntry?, doSkompletowania: MutableList<OrderItem>, doWydania: MutableList<OrderItem>){
+fun BottomNavigation(bottomNavController: NavHostController,
+                     navBackStackEntry: NavBackStackEntry?,
+                     doSkompletowania: MutableList<OrderItem>,
+                     doWydania: MutableList<OrderItem>){
     val currentDestination = navBackStackEntry?.destination
     NavigationBar {
         NavigationBar {

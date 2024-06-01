@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                         context = this,
                         sharedPrefs = sharedPrefs,
                         doSkompletowania = doSkompletowania,
-                        doWydania = doWydania
+                        doWydania = doWydania,
                     )
                 }
             }

@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,12 +28,12 @@ fun SetupSekcjeNavGraph(bottomNavController: NavHostController,
         composable(
             route= Sekcje.Kompletowanie.route
         ){
-            Kompletowanie(bottomNavController, doSkompletowania)
+            Kompletowanie(navController, bottomNavController, doSkompletowania)
         }
         composable(
             route= Sekcje.Wydawanie.route
         ){
-            Wydawanie(bottomNavController, doWydania)
+            Wydawanie(navController, bottomNavController, doWydania)
         }
         composable(
             route= Sekcje.Ustawienia.route
