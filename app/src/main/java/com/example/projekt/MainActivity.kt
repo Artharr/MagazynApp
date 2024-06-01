@@ -1,6 +1,7 @@
 package com.example.projekt
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,26 +19,24 @@ import com.example.projekt.ui.theme.ProjektTheme
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var bottomNavController: NavHostController
+
     lateinit var ekranyNavController: NavHostController
     private var doSkompletowania: Int = 5
     private var doWydania: Int = 8
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ProjektTheme {
-                bottomNavController = rememberNavController()
+                val sharedPrefs = getPreferences(Context.MODE_PRIVATE)
                 ekranyNavController = rememberNavController()
                 SetupEkranyNavGraph(
                     navController = ekranyNavController,
-                    bottomNavController = bottomNavController,
                     doSkompletowania = doSkompletowania,
                     doWydania = doWydania,
-                    context = this
+                    context = this,
+                    sharedPrefs = sharedPrefs
                 )
             }
         }

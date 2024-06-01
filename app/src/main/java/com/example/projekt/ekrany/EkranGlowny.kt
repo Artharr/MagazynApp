@@ -1,6 +1,7 @@
 package com.example.projekt.ekrany
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -28,6 +29,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.projekt.R
 import com.example.projekt.nawigacja.Sekcje
 import com.example.projekt.nawigacja.SetupSekcjeNavGraph
@@ -35,7 +37,8 @@ import com.example.projekt.nawigacja.SetupSekcjeNavGraph
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EkranGlowny(navController: NavHostController, bottomNavController: NavHostController, doSkompletowania: Int, doWydania: Int, context: Context){
+fun EkranGlowny(navController: NavHostController, doSkompletowania: Int, doWydania: Int, context: Context, sharedPrefs: SharedPreferences){
+    var bottomNavController: NavHostController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     Scaffold(bottomBar = {
@@ -55,7 +58,7 @@ fun EkranGlowny(navController: NavHostController, bottomNavController: NavHostCo
     }, content = {
             paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)){
-            SetupSekcjeNavGraph(bottomNavController, navController)
+            SetupSekcjeNavGraph(bottomNavController, navController, sharedPrefs)
         }
     })
 }

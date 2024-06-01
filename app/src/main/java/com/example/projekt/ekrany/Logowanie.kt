@@ -1,17 +1,16 @@
 package com.example.projekt.ekrany
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,13 +24,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.PopUpToBuilder
-import com.example.projekt.MainActivity
-import com.example.projekt.Uzytkownik
 import com.example.projekt.nawigacja.Ekrany
 
 @Composable
-fun Logowanie(navController: NavController){
+fun Logowanie(navController: NavController, sharedPrefs: SharedPreferences){
+    if(sharedPrefs.getInt("zalogowany", 0) == 1){
+        navController.navigate(Ekrany.EkranGlowny.route){
+            navController.popBackStack()
+        }
+    }
     var login by remember{ mutableStateOf("") }
     var haslo by remember{ mutableStateOf("") }
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -58,6 +59,10 @@ fun Logowanie(navController: NavController){
             Button(onClick = {
                 navController.navigate(Ekrany.EkranGlowny.route){
                     navController.popBackStack()
+                }
+                with(sharedPrefs.edit()){
+                    putInt("zalogowany", 1)
+                    apply()
                 }
                 }) {
                 Text(text = "Zaloguj!", fontSize = 18.sp)

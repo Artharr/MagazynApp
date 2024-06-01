@@ -1,5 +1,6 @@
 package com.example.projekt.nawigacja
 
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -13,7 +14,7 @@ import com.example.projekt.sekcje.Wydawanie
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SetupSekcjeNavGraph(bottomNavController: NavHostController, navController: NavController){
+fun SetupSekcjeNavGraph(bottomNavController: NavHostController, navController: NavController, sharedPrefs: SharedPreferences){
     NavHost(
         navController = bottomNavController,
         startDestination = Sekcje.Kompletowanie.route
@@ -31,7 +32,7 @@ fun SetupSekcjeNavGraph(bottomNavController: NavHostController, navController: N
         composable(
             route= Sekcje.Ustawienia.route
         ){
-            Ustawienia(navController, bottomNavController)
+            Ustawienia(navController, bottomNavController, sharedPrefs)
         }
     }
 }
