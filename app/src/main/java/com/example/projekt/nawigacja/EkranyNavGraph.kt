@@ -23,10 +23,7 @@ import com.example.projekt.ekrany.Zamowienie
 fun SetupEkranyNavGraph(
     navController: NavHostController,
     context: Context,
-    sharedPrefs: SharedPreferences,
-    doSkompletowania: MutableList<OrderItem>,
-    doWydania: MutableList<OrderItem>,
-){
+    sharedPrefs: SharedPreferences){
     var route = Ekrany.Logowanie.route
     if(sharedPrefs.getInt("zalogowany", 0) == 1){
         route = Ekrany.EkranGlowny.route
@@ -38,7 +35,7 @@ fun SetupEkranyNavGraph(
         composable(
             route= Ekrany.EkranGlowny.route
         ){
-            EkranGlowny(navController, context, sharedPrefs, doSkompletowania, doWydania)
+            EkranGlowny(navController, context, sharedPrefs)
         }
         composable(
             route= Ekrany.Logowanie.route

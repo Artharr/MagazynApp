@@ -1,5 +1,6 @@
 package com.example.projekt.sekcje
 
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
@@ -13,12 +14,17 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.projekt.OrderItem
 import com.example.projekt.OrderListItem
+import com.example.projekt.model.Zamowienie
+import kotlinx.serialization.json.Json
+import java.net.URL
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Wydawanie(navController: NavController, BottomNavController: NavController, doWydania: MutableList<OrderItem>){
+fun Wydawanie(navController: NavController, BottomNavController: NavController, zamowienia: MutableList<Zamowienie>){
     LazyColumn (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier
         .fillMaxSize()){
-        items(doWydania){ order-> OrderListItem(orderItem = order, navController = navController) }
+        items(zamowienia){
+            OrderListItem(orderItem = it, navController = navController)
+        }
     }
 }

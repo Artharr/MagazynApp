@@ -24,7 +24,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.projekt.model.Pracownik
 import com.example.projekt.nawigacja.Ekrany
+import kotlinx.serialization.json.Json
+import org.json.JSONArray
+import java.net.URL
 
 @Composable
 fun Logowanie(navController: NavController, sharedPrefs: SharedPreferences){
@@ -57,13 +61,21 @@ fun Logowanie(navController: NavController, sharedPrefs: SharedPreferences){
             )
             Spacer(modifier = Modifier.height(36.dp))
             Button(onClick = {
-                navController.navigate(Ekrany.EkranGlowny.route){
-                    navController.popBackStack()
-                }
-                with(sharedPrefs.edit()){
-                    putInt("zalogowany", 1)
-                    putString("nazwaUzytkownika", login)
-                    apply()
+                val pracownicy = Json.decodeFromString<List<Pracownik>>(URL("https://elite-anvil-425309-b6.lm.r.appspot.com/employee").readText())
+                pracownicy.forEach {
+                    if(it.login == login){
+                        if(it.password == haslo){
+                            navController.navigate(Ekrany.EkranGlowny.route){
+                                navController.popBackStack()
+                            }
+                            with(sharedPrefs.edit()){
+                                putInt("zalogowany", 1)
+                                putString("nazwaUzytkownika", it.firstName+" "+it.lastName)
+                                putInt("idUzytkownika", it.employeeId)
+                                apply()
+                            }
+                        }
+                    }
                 }
                 }) {
                 Text(text = "Zaloguj!", fontSize = 18.sp)

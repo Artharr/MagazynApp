@@ -1,5 +1,6 @@
 package com.example.projekt.ekrany
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -21,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -33,23 +35,31 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projekt.OrderItem
 import com.example.projekt.R
+import com.example.projekt.model.Zamowienie
 import com.example.projekt.nawigacja.Sekcje
 import com.example.projekt.nawigacja.SetupSekcjeNavGraph
+import kotlinx.serialization.json.Json
+import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
+@SuppressLint("UnrememberedMutableState")
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs: SharedPreferences, doSkompletowania: MutableList<OrderItem>, doWydania: MutableList<OrderItem>){
+fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs: SharedPreferences){
     val bottomNavController: NavHostController = rememberNavController()
     val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val nazwaUzytkownika = sharedPrefs.getString("nazwaUzytkownika", "")
+    val idUzytkownika = sharedPrefs.getInt("idUzytkownika", 0)
+    var doSkompletowania = mutableStateListOf<Zamowienie>()
+    var doWydania = mutableStateListOf<Zamowienie>()
+    aktualizujZamowienie(doSkompletowania, doWydania, idUzytkownika)
+
     Scaffold(bottomBar = {
-        BottomNavigation(bottomNavController = bottomNavController, navBackStackEntry = navBackStackEntry, doSkompletowania = doSkompletowania, doWydania = doWydania
-        )
+        BottomNavigation(bottomNavController = bottomNavController, navBackStackEntry = navBackStackEntry, doSkompletowania, doWydania)
     }, floatingActionButton = {
         if(currentDestination?.hierarchy?.any{
                 it.route == Sekcje.Ustawienia.route
@@ -57,17 +67,7 @@ fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs:
             FloatingActionButton(
                 onClick = {
                     Toast.makeText(context, "*refresh*", Toast.LENGTH_SHORT).show()
-                    if(currentDestination.hierarchy.any{it.route==Sekcje.Kompletowanie.route}){
-                        doSkompletowania.add(OrderItem(Random.nextInt(0,100),
-                            LocalDateTime.parse(Random.nextInt(10,23).toString()+":"+
-                                    Random.nextInt(10,59)+" "+
-                                    Random.nextInt(10,28)+"-"+
-                                    Random.nextInt(10,12)+"-2024",
-                                DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))
-                    }
-                    if(currentDestination.hierarchy.any{it.route==Sekcje.Wydawanie.route}){
-                        doWydania.add(OrderItem(Random.nextInt(0,100), LocalDateTime.parse(Random.nextInt(10,23).toString()+":"+Random.nextInt(10,59)+" "+Random.nextInt(10,28)+"-"+Random.nextInt(10,12)+"-2024", DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"))))
-                    }
+                    aktualizujZamowienie(doSkompletowania, doWydania, idUzytkownika)
                 }) {
                 Icon(imageVector = ImageVector.vectorResource(R.drawable.baseline_refresh_24), contentDescription = "odśwież")
             }
@@ -86,8 +86,8 @@ fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs:
 @Composable
 fun BottomNavigation(bottomNavController: NavHostController,
                      navBackStackEntry: NavBackStackEntry?,
-                     doSkompletowania: MutableList<OrderItem>,
-                     doWydania: MutableList<OrderItem>){
+                     doSkompletowania: MutableList<Zamowienie>,
+                     doWydania: MutableList<Zamowienie>){
     val currentDestination = navBackStackEntry?.destination
     NavigationBar {
         NavigationBar {
@@ -131,6 +131,21 @@ fun BottomNavigation(bottomNavController: NavHostController,
                     Icon(imageVector = ImageVector.vectorResource(id= R.drawable.baseline_settings_24), contentDescription = "Ustawienia")
                 },
                 label = { Text(text = "Ustawienia") })
+        }
+    }
+}
+
+fun aktualizujZamowienie(doSkompletowania: MutableList<Zamowienie>, doWydania: MutableList<Zamowienie>, idUzytkownika: Int){
+    var zamowienia = Json.decodeFromString<List<Zamowienie>>(URL("https://elite-anvil-425309-b6.lm.r.appspot.com/order").readText())
+    doSkompletowania.clear()
+    doWydania.clear()
+    zamowienia.forEach{
+        if(it.employeeId == idUzytkownika){
+            if(it.status=="Oczekujące"){
+                doSkompletowania.add(it)
+            }else if (it.status=="Skompletowane"){
+                doWydania.add(it)
+            }
         }
     }
 }

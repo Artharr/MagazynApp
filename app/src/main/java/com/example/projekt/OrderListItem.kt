@@ -16,20 +16,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.projekt.model.Zamowienie
 import com.example.projekt.nawigacja.Ekrany
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun OrderListItem(orderItem: OrderItem, navController: NavController){
+fun OrderListItem(orderItem: Zamowienie, navController: NavController){
     Button(onClick = {
-        navController.navigate(Ekrany.Zamowienie.route+"/"+orderItem.orderID.toString())},
+        navController.navigate(Ekrany.Zamowienie.route+"/"+orderItem.orderId.toString())},
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
     ) {
         Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
-            Text(text = "Zamówienie " + orderItem.orderID.toString(), fontSize = 32.sp, color = Color.Black)
-            Text(text = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy").format(orderItem.orderDate), color = Color.DarkGray)
+            Text(text = "Zamówienie " + orderItem.orderId.toString(), fontSize = 32.sp, color = Color.Black)
+            Text(text = orderItem.orderDate, color = Color.DarkGray)
         }
     }
 }
