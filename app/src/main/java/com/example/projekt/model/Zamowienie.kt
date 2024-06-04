@@ -4,10 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Zamowienie(
-    val orderId: Int,
+    var orderId: Int,
     val name: String,
     val lastName: String,
-    val status: String,
+    var status: String,
     val orderDate: String,
-    val employeeId: Int
+    val employeeId: Int,
 )

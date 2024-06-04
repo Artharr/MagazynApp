@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -24,8 +23,6 @@ import com.example.projekt.ui.theme.ProjektTheme
 
 class MainActivity : ComponentActivity() {
     lateinit var ekranyNavController: NavHostController
-    var doSkompletowania = mutableStateListOf<OrderItem>()
-    val doWydania = mutableStateListOf<OrderItem>()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
