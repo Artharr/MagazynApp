@@ -160,7 +160,7 @@ public class NotificationChecker extends Service {
                 .setContentText(content)
                 .setOnlyAlertOnce(false)
                 .setOngoing(true)
-                .setSmallIcon(R.drawable.baseline_forklift_24)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 
     }
