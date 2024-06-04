@@ -49,7 +49,7 @@ fun Ustawienia(navController: NavController, bottomNavController: NavController,
     var jezyk by remember {
         mutableStateOf("Polski")
     }
-    Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Column {
             LazyColumn(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 items(listaUstawien){

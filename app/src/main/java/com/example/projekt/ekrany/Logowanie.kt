@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -47,7 +48,7 @@ fun Logowanie(navController: NavController, sharedPrefs: SharedPreferences){
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "MagazynApp", fontSize = 48.sp)
+            Text(text = "Virtual Warehouse", fontSize = 48.sp, textAlign = TextAlign.Center, lineHeight = 54.sp)
             Spacer(modifier = Modifier.height(64.dp))
             OutlinedTextField(
                 value = login,

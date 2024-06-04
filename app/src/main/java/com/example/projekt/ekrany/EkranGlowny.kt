@@ -66,7 +66,7 @@ fun EkranGlowny(navController: NavHostController, context: Context, sharedPrefs:
             }==false){
             FloatingActionButton(
                 onClick = {
-                    Toast.makeText(context, "*refresh*", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Odświeżanie", Toast.LENGTH_SHORT).show()
                     aktualizujZamowienie(doSkompletowania, doWydania, idUzytkownika)
                 }) {
                 Icon(imageVector = ImageVector.vectorResource(R.drawable.baseline_refresh_24), contentDescription = "odśwież")
@@ -104,7 +104,7 @@ fun BottomNavigation(bottomNavController: NavHostController,
                         Icon(imageVector = ImageVector.vectorResource(id= R.drawable.baseline_forklift_24), contentDescription = "Wydawanie")
                     }
                 },
-                label = { Text(text = "Wydawanie") })
+                label = { Text(text = "Kompletowanie") })
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any{ it.route == Sekcje.Wydawanie.route } == true,
                 onClick = {
@@ -118,7 +118,7 @@ fun BottomNavigation(bottomNavController: NavHostController,
                         Icon(imageVector = ImageVector.vectorResource(id= R.drawable.baseline_publish_24), contentDescription = "Kompletowanie")
                     }
                 },
-                label = { Text(text = "Kompletowanie") })
+                label = { Text(text = "Wydawanie") })
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any{ it.route == Sekcje.Ustawienia.route } == true,
                 onClick = {
