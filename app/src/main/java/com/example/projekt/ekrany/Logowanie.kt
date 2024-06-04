@@ -1,6 +1,8 @@
 package com.example.projekt.ekrany
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +25,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import androidx.navigation.NavController
+import com.example.projekt.NotificationChecker
 import com.example.projekt.model.Pracownik
 import com.example.projekt.nawigacja.Ekrany
 import kotlinx.serialization.json.Json
@@ -73,7 +77,9 @@ fun Logowanie(navController: NavController, sharedPrefs: SharedPreferences){
                                 putString("nazwaUzytkownika", it.firstName+" "+it.lastName)
                                 putInt("idUzytkownika", it.employeeId)
                                 apply()
+
                             }
+
                         }
                     }
                 }

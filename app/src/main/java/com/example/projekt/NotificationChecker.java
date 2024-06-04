@@ -88,7 +88,7 @@ public class NotificationChecker extends Service {
     }
     private void GetOrderList(){
 
-        SharedPreferences sharedPref = getSharedPreferences(getPackageName()+"_preferences",Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("MainActivity",Context.MODE_PRIVATE);
         int userId = sharedPref.getInt("idUzytkownika",1);
         new Thread(()->{
             URL api;
@@ -156,7 +156,7 @@ public class NotificationChecker extends Service {
 
         }
         return new NotificationCompat.Builder(this, "100")
-                .setContentTitle("Połączenie z bazą danych")
+                .setContentTitle("Virtual Warehouse Assistant")
                 .setContentText(content)
                 .setOnlyAlertOnce(false)
                 .setOngoing(true)
